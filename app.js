@@ -7,15 +7,13 @@ app.get("*", (req, res) => {
   axiosInstance
     .get(req.url)
     .then((response) => {
-      console.log(response.data);
-      return response.data;
+      return res.send(response.data);
     })
     .catch((error) => {
-      console.error("Error:", error.message);
-      return {
+      return res.send({
         status: "error",
         message: error.message,
-      };
+      });
     });
 });
 
