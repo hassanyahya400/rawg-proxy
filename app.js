@@ -1,17 +1,14 @@
 const express = require("express");
-const proxy = require("express-http-proxy");
+const axiosInstance = require("./apiClient");
 
 const app = express();
 
-app.use(
-  "/",
-  proxy("https://api.rawg.io/api", {
-    proxyReqOptDecorator: function (proxyReqOpts, originalReq) {
-      proxyReqOpts.rejectUnauthorized = false;
-      return proxyReqOpts;
-    },
-  }),
-);
+app.get("*", (req, res) => {
+  axiosInstance.get(req.url).then((response) => {
+    console.log(response.data);
+    return response.data;
+  }); 
+});
 
 const port = process.env.PORT || 3000;
 
